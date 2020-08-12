@@ -3,11 +3,12 @@ import { FiLogIn } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import './styles.css';
+import { PageHome, Content } from './styled'
 
 const Home = () => {
   return (
-    <div id="page-home">
-      <div className="content">
+    <PageHome>
+      <Content>
         <header>
           <img src={logo} alt="Ecoleta" />
         </header>
@@ -22,8 +23,8 @@ const Home = () => {
             <strong>Cadastre um ponto de coleta</strong>
           </Link>
         </main>
-      </div>
-    </div>
+      </Content>
+    </PageHome>
   );
 };
 
