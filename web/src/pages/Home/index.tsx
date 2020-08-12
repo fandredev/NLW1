@@ -2,7 +2,6 @@ import React from 'react';
 import { FiLogIn } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import './styles.css';
 import { PageHome, Content } from './styled'
 
 const Home = () => {
