@@ -10,7 +10,11 @@
     "knex:migrate": "knex --knexfile knexfile.ts migrate:latest"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Felipe",
+    "url": "https://github.com/flubyGit",
+    "email": "profissionalf.andre@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
