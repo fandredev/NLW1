@@ -1,18 +1,18 @@
-import axios from 'axios';
-import { LeafletMouseEvent } from 'leaflet';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
-import { Map, Marker, TileLayer } from 'react-leaflet';
-import { Link, useHistory } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
-import { UrlsIgbe } from '../../enuns';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { LeafletMouseEvent } from "leaflet";
+import { FiArrowLeft } from "react-icons/fi";
+import { Map, Marker, TileLayer } from "react-leaflet";
+import { Link, useHistory } from "react-router-dom";
+import logo from "../../assets/logo.svg";
+import { UrlsIgbe } from "../../enuns";
 import {
   I_IGBECityResponse as InterfaceCity,
   I_IGBEUFResponse as InterfaceUF,
   I_Item as InterfaceItem,
-} from '../../interfaces';
-import api from '../../services/api';
-import './styles.css';
+} from "../../interfaces";
+import api from "../../services/api";
+import "./styles.css";
 
 const CreatePoint = () => {
   // Estado para array ou objeto, informar interface
@@ -20,35 +20,37 @@ const CreatePoint = () => {
   const [uf, setUfs] = useState<string[]>([]);
   const [cities, setCity] = useState<string[]>([]);
 
-  const [selectedUf, setSelectedUf] = useState('0');
-  const [selectedCity, setSelectedCity] = useState('0');
+  const [selectedUf, setSelectedUf] = useState("0");
+  const [selectedCity, setSelectedCity] = useState("0");
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
   // const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0])
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    whatsapp: '',
+    name: "",
+    email: "",
+    whatsapp: "",
   });
   const history = useHistory();
 
   useEffect(() => {
-    api.get('items').then((res) => {
+    api.get("items").then(res => {
       setItems(res.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get<InterfaceUF<string>[]>(UrlsIgbe.States).then((response) => {
-      const ufInitials = response.data.map((uf) => uf.sigla);
+    axios.get<InterfaceUF<string>[]>(UrlsIgbe.States).then(response => {
+      const ufInitials = response.data.map(uf => uf.sigla);
       setUfs(ufInitials);
     });
   });
   useEffect(() => {
-    axios.get<InterfaceCity<string>[]>(`${UrlsIgbe.States}${selectedUf}/municipios`).then((response) => {
-      const cityNames = response.data.map((city) => city.nome);
-      setCity(cityNames);
-    });
+    axios
+      .get<InterfaceCity<string>[]>(`${UrlsIgbe.States}${selectedUf}/municipios`)
+      .then(response => {
+        const cityNames = response.data.map(city => city.nome);
+        setCity(cityNames);
+      });
   }, [selectedUf]);
   // useEffect(() => {
   //   navigator.geolocation.getCurrentPosition(position => {
@@ -72,9 +74,9 @@ const CreatePoint = () => {
     setFormData({ ...formData, [name]: value });
   }
   function handleSelectItem(id: number) {
-    const alreadySelected = selectedItems.findIndex((i) => i === id);
+    const alreadySelected = selectedItems.findIndex(i => i === id);
     if (alreadySelected >= 0) {
-      const filteredItems = selectedItems.filter((item) => item !== id);
+      const filteredItems = selectedItems.filter(item => item !== id);
       setSelectedItems(filteredItems);
     } else setSelectedItems([...selectedItems, id]);
   }
@@ -95,9 +97,9 @@ const CreatePoint = () => {
       longitude,
       items,
     };
-    await api.post('points', data);
-    alert('Ponto de coleta criado');
-    history.push('/');
+    await api.post("points", data);
+    alert("Ponto de coleta criado");
+    history.push("/");
   }
   return (
     <div id="page-create-point">
@@ -148,10 +150,14 @@ const CreatePoint = () => {
           </Map>
           <div className="field-group">
             <div className="field">
-              <label htmlFor="uf">Estado (UF)</label>
+              <label htmlFor="uf">
+                Estado (<abbr title="Estado">UF</abbr>)
+              </label>
               <select onChange={handleSelectUf} value={selectedUf} name="uf" id="uf">
-                <option value="0">Selecione uma uf</option>
-                {uf.map((uf) => (
+                <option value="0">
+                  Selecione uma <abbr title="Estado">uf</abbr>
+                </option>
+                {uf.map(uf => (
                   <option key={uf} value={uf}>
                     {uf}
                   </option>
@@ -162,7 +168,7 @@ const CreatePoint = () => {
               <label htmlFor="city">Cidade</label>
               <select onChange={handleSelectCity} value={selectedCity} name="city" id="city">
                 <option value="0">Selecione uma cidade</option>
-                {cities.map((city) => (
+                {cities.map(city => (
                   <option key={city} value={city}>
                     {city}
                   </option>
@@ -178,11 +184,11 @@ const CreatePoint = () => {
           </legend>
 
           <ul className="items-grid">
-            {items.map((item) => (
+            {items.map(item => (
               <li
                 key={item.id}
                 onClick={() => handleSelectItem(item.id)}
-                className={selectedItems.includes(item.id) ? 'selected' : ''}
+                className={selectedItems.includes(item.id) ? "selected" : ""}
               >
                 <img src={item.image_url} alt={item.title} />
                 <span>{item.title}</span>
